@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 项目坐标：可根据实际情况修改 -->
+    <groupId>com.example.robot</groupId>
+    <artifactId>child-delivery-robot</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>接送儿童与送快递机器人</name>
+    <description>Java + Maven 机器人项目（预留 ROS、串口、JSON、OpenCV、WebSocket 等依赖位置）</description>
+
+    <properties>
+        <!-- Java 21 编译（推荐使用 release 参数，保证交叉编译一致性） -->
+        <maven.compiler.release>21</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- 可执行 JAR 的入口主类，改成你自己的实际主类全限定名 -->
+        <main.class>com.example.robot.Main</main.class>
+
+        <!-- 插件版本统一管理 -->
+        <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
+        <maven.shade.plugin.version>3.6.0</maven.shade.plugin.version>
+    </properties>
+
+    <dependencies>
+        <!-- =================================================================
+             以下是机器人项目可能用到的依赖「预留位置」。
+             默认全部被注释掉，需要哪个就取消对应 XML 注释即可。
+             首次构建建议保持注释状态，确保最快、最稳定地通过验证。
+             ================================================================= -->
+
+        <!-- ============ JSON 解析 ============ -->
+        <!-- Jackson（推荐，功能强大、生态完善） -->
+        <!--
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.17.2</version>
+        </dependency>
+        -->
+
+        <!-- Gson（Google 出品，轻量易用） -->
+        <!--
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        -->
+
+        <!-- ============ 串口通信 ============ -->
+        <!-- jSerialComm（推荐：纯 Java、跨平台、无需额外 native 库） -->
+        <!--
+        <dependency>
+            <groupId>com.fazecast</groupId>
+            <artifactId>jSerialComm</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        -->
+
+        <!-- RXTX（较老，需要额外配置 native 库，跨平台兼容性差） -->
+        <!--
+        <dependency>
+            <groupId>org.rxtx</groupId>
+            <artifactId>rxtx</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+        -->
+
+        <!-- PureJavaComm（RXTX 的纯 Java 替代方案） -->
+        <!--
+        <dependency>
+            <groupId>com.github.purejavacomm</groupId>
+            <artifactId>purejavacomm</artifactId>
+            <version>1.0.3.RELEASE</version>
+        </dependency>
+        -->
+
+        <!-- ============ OpenCV / 计算机视觉 ============ -->
+        <!-- openpnp 封装的 OpenCV（纯 Java，含预编译 native，Maven 直接可用，最简单） -->
+        <!--
+        <dependency>
+            <groupId>org.openpnp</groupId>
+            <artifactId>opencv</artifactId>
+            <version>4.9.0-0</version>
+        </dependency>
+        -->
+
+        <!-- 或使用 JavaCV（bytedeco，功能更全，含 FFmpeg 等，体积较大） -->
+        <!--
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>1.5.11</version>
+        </dependency>
+        -->
+
+        <!-- ============ WebSocket ============ -->
+        <!-- Java-WebSocket（轻量客户端/服务端，连接 ROS rosbridge 常用） -->
+        <!--
+        <dependency>
+            <groupId>org.java-websocket</groupId>
+            <artifactId>Java-WebSocket</artifactId>
+            <version>1.5.7</version>
+        </dependency>
+        -->
+
+        <!-- javax.websocket API（配合 Tyrus/Jetty 等实现使用） -->
+        <!--
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        -->
+
+        <!-- ============ ROS Java ============ -->
+        <!-- 注意：ROS1 的 rosjava 已停止维护（最后版本 0.3.x），ROS2 的 rcljava 也尚不成熟。
+             若需直接集成 ROS，通常还需额外配置 ROS 的 Maven 仓库。
+             更常见做法是通过 WebSocket 连接 ROS 的 rosbridge 服务（配合上面的 Java-WebSocket）。 -->
+        <!--
+        <dependency>
+            <groupId>org.ros.rosjava_core</groupId>
+            <artifactId>rosjava</artifactId>
+            <version>0.3.6</version>
+        </dependency>
+        -->
+
+        <!-- ============ 单元测试 ============ -->
+        <!-- JUnit 5（编写测试时取消注释即可使用） -->
+        <!--
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+        -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 编译插件：确保使用 Java 21 编译 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <release>21</release>
+                    <encoding>UTF-8</encoding>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+
+            <!-- 打包插件：生成可执行 JAR（把依赖也打进去，形成一个 fat jar） -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven.shade.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 在 MANIFEST.MF 中写入入口主类，使其可直接 java -jar 运行 -->
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${main.class}</mainClass>
+                                </transformer>
+                            </transformers>
+                            <!-- 打包后的可执行 JAR 命名（加 -exec 后缀，与普通 jar 区分） -->
+                            <finalName>${project.artifactId}-${project.version}-exec</finalName>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
